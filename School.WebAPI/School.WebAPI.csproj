@@ -10,4 +10,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="test-files\private-school\" />
+    <Folder Include="test-files\public-school\" />
+  </ItemGroup>
+
 </Project>
