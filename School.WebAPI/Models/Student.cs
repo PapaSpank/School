@@ -2,19 +2,6 @@
 {
     public class Student
     {
-        //public User() { }
-        //public User(string userId, string firstName, string middleName, string lastName, string address, string studentId, string phone, Parent parent, string note = null)
-        //{
-        //    UserId = userId;
-        //    FirstName = firstName;
-        //    MiddleName = middleName;
-        //    LastName = lastName;
-        //    Address = address;
-        //    StudentId = studentId;
-        //    Phone = phone;
-        //    Parent = parent;
-        //    Note = note;
-        //}
         public string UserId { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }

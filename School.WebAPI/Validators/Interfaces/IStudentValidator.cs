@@ -1,9 +1,9 @@
 ﻿using School.WebAPI.Models;
 using School.WebAPI.Models.Internal;
 
-namespace School.WebAPI.BLL
+namespace School.WebAPI.Validators.Interfaces
 {
-    public interface IStudentBLL
+    public interface IStudentValidator
     {
         Task<StudentsValidationResult> ValidateStudents(List<Student> students);
     }
