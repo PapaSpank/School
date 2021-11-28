@@ -119,48 +119,48 @@ namespace School.WebAPI.Controllers
             return Ok();
         }
 
-        //[HttpPost]
-        //[Route("createFromFilePrivate")]
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-        //public async Task<IActionResult> CreateStudentsFromFilePrivate([FromForm] IFormFile formFile)
-        //{
-        //    if (formFile == null || formFile.Length == 0)
-        //    {
-        //        return BadRequest("File cannot be null or empty");
-        //    }
+        [HttpPost]
+        [Route("createFromFilePrivate")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> CreateStudentsFromFilePrivate([FromForm] IFormFile formFile)
+        {
+            if (formFile == null || formFile.Length == 0)
+            {
+                return BadRequest("File cannot be null or empty");
+            }
 
-        //    string filePath = Path.GetTempFileName();
+            string filePath = Path.GetTempFileName();
 
-        //    using var stream = System.IO.File.Create(filePath);
-        //    await formFile.CopyToAsync(stream);
-        //    stream.Seek(0, SeekOrigin.Begin);
+            using var stream = System.IO.File.Create(filePath);
+            await formFile.CopyToAsync(stream);
+            stream.Seek(0, SeekOrigin.Begin);
 
-        //    StudentsParsingResult parsingResult = await _csvFileParser.ParseCsvPrivateSchoolFile(stream);
-        //    if (parsingResult.InvalidRows.Count != 0)
-        //    {
-        //        return BadRequest(parsingResult.ErrorMessage);
-        //    }
+            PrivateStudentsParsingResult parsingResult = await _csvFileParser.ParseCsvPrivateSchoolFile(stream);
+            if (parsingResult.InvalidRows.Count != 0)
+            {
+                return BadRequest(parsingResult.ErrorMessage);
+            }
 
-        //    StudentsValidationResult validationResult = await _studentBLL.ValidatePrivateSchoolStudentsFromFile(parsingResult.Students);
-        //    if (validationResult.InvalidRows.Count != 0)
-        //    {
-        //        return BadRequest(validationResult.ErrorMessage);
-        //    }
-        //    // TODO: remoteIpAddress
-        //    var remoteIpAddress = Request.HttpContext.Connection.RemoteIpAddress;
-        //    string address = remoteIpAddress.ToString();
+            PrivateStudentsValidationResult validationResult = await _studentBLL.ValidatePrivateSchoolStudentsFromFile(parsingResult.Students);
+            if (validationResult.InvalidRows.Count != 0)
+            {
+                return BadRequest(validationResult.ErrorMessage);
+            }
+            // TODO: remoteIpAddress
+            var remoteIpAddress = Request.HttpContext.Connection.RemoteIpAddress;
+            string address = remoteIpAddress.ToString();
 
-        //    try
-        //    {
-        //        await _studentDAL.InsertPrivateSchoolStudents(validationResult.Students);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(StatusCodes.Status500InternalServerError, new { message = $"{ex.Message}" });
-        //    }
+            try
+            {
+                await _studentDAL.InsertPrivateSchoolStudents(validationResult.Students);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = $"{ex.Message}" });
+            }
 
-        //    return Ok();
-        //}
+            return Ok();
+        }
     }
 }

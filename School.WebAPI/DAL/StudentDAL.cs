@@ -15,6 +15,7 @@ namespace School.WebAPI.DAL
         {
             _configuration = configuration;
         }
+
         // TODO: refactor code
         public async Task InsertPublicSchoolStudents(List<PublicSchoolStudent> students)
         {
@@ -40,6 +41,31 @@ namespace School.WebAPI.DAL
             await JsonSerializer.SerializeAsync(createStream, outputModel, options);
             await createStream.DisposeAsync();
 
+        }
+
+        public async Task InsertPrivateSchoolStudents(List<PrivateSchoolStudent> students)
+        {
+            string path = _configuration.GetConnectionString("TimeStampOutput");
+            PrivateSchoolOutputModel outputModel = new()
+            {
+                Students = students,
+                SchoolName = string.Empty,
+                SchoolType = "public"
+            };
+
+            lock (_timestampLock)
+            {
+                string timestamp = DateTime.Now.ToString("yyyyMMddHHmmssffff");
+                path += timestamp + ".json";
+            }
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true
+            };
+
+            using FileStream createStream = File.Create(path);
+            await JsonSerializer.SerializeAsync(createStream, outputModel, options);
+            await createStream.DisposeAsync();
         }
     }
 }
