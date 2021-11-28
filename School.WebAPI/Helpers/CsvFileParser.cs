@@ -7,9 +7,9 @@ namespace School.WebAPI.Helpers
 {
     public class CsvFileParser : ICsvFileParser
     {
-        public async Task<StudentsParsingResult> ParseCsvPublicSchoolFile(FileStream fileStream)
+        public async Task<PublicStudentsParsingResult> ParseCsvPublicSchoolFile(FileStream fileStream)
         {
-            StudentsParsingResult parsingResult = new()
+            PublicStudentsParsingResult parsingResult = new()
             {
                 Students = new(),
                 InvalidRows = new(),
@@ -62,7 +62,7 @@ namespace School.WebAPI.Helpers
                     Phone = parentPhone
                 };
 
-                Student student = new()
+                PublicSchoolStudent student = new()
                 {
                     UserId = userId,
                     FirstName = firstName,

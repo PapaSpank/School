@@ -1,17 +1,16 @@
-﻿using School.WebAPI.Helpers.Interfaces;
-using School.WebAPI.Models;
+﻿using School.WebAPI.Models;
 using School.WebAPI.Models.Internal;
 using School.WebAPI.Validators.Interfaces;
 using System.Text;
 
 namespace School.WebAPI.Validators
 {
-    public class StudentValidator : IStudentValidator
+    public class PublicStudentFromBodyValidator : IPublicStudentFromBodyValidator
     {
-        public async Task<StudentsValidationResult> ValidateStudents(List<Student> students)
+        public async Task<PublicStudentsValidationResult> ValidateStudents(List<PublicSchoolStudent> students)
         {
             bool validationFailed = false;
-            StudentsValidationResult studentsValidationResult = new()
+            PublicStudentsValidationResult studentsValidationResult = new()
             {
                 Students = new(),
                 InvalidRows = new(),
@@ -20,7 +19,7 @@ namespace School.WebAPI.Validators
 
             for (int i = 0; i < students.Count; i++)
             {
-                Student student = students[i];
+                PublicSchoolStudent student = students[i];
                 if (ValidateStudent(student))
                 {
                     studentsValidationResult.Students.Add(student);
@@ -33,7 +32,6 @@ namespace School.WebAPI.Validators
             }
             if (validationFailed)
             {
-                // TODO: za ovaj deo moze da se uradi refactoring
                 StringBuilder sb = new("Validation failed for data with row numbers: [ ");
                 foreach (int row in studentsValidationResult.InvalidRows)
                 {
@@ -48,7 +46,7 @@ namespace School.WebAPI.Validators
             return studentsValidationResult;
         }
 
-        private static bool ValidateStudent(Student student)
+        private static bool ValidateStudent(PublicSchoolStudent student)
         {
             if (string.IsNullOrEmpty(student.UserId))
                 return false;
@@ -58,14 +56,14 @@ namespace School.WebAPI.Validators
                 return false;
             if (string.IsNullOrEmpty(student.LastName))
                 return false;
-            if (string.IsNullOrEmpty(student.Address))
-                return false;
             if (string.IsNullOrEmpty(student.StudentId))
                 return false;
             if (string.IsNullOrEmpty(student.Phone))
                 return false;
 
             if (string.IsNullOrEmpty(student.Parent.FirstName))
+                return false;
+            if (string.IsNullOrEmpty(student.Parent.MiddleName))
                 return false;
             if (string.IsNullOrEmpty(student.Parent.LastName))
                 return false;

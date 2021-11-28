@@ -22,7 +22,8 @@ builder.Services.AddSwaggerGen(c =>
 
 // custom services
 builder.Services.AddSingleton<ICsvFileParser, CsvFileParser>();
-builder.Services.AddSingleton<IStudentValidator, StudentValidator>();
+builder.Services.AddSingleton<IPublicStudentFromFileValidator, PublicStudentFromFileValidator>();
+builder.Services.AddSingleton<IPublicStudentFromBodyValidator, PublicStudentFromBodyValidator>();
 builder.Services.AddSingleton<IStudentBLL, StudentBLL>();
 builder.Services.AddSingleton<IStudentDAL, StudentDAL>();
 

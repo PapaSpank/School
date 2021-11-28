@@ -11,8 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="output\" />
     <Folder Include="test-files\private-school\" />
-    <Folder Include="test-files\public-school\" />
   </ItemGroup>
 
 </Project>

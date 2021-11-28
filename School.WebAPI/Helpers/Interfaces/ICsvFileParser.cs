@@ -5,6 +5,6 @@ namespace School.WebAPI.Helpers.Interfaces
 {
     public interface ICsvFileParser
     {
-        Task<StudentsParsingResult> ParseCsvPublicSchoolFile(FileStream fileStream);
+        Task<PublicStudentsParsingResult> ParseCsvPublicSchoolFile(FileStream fileStream);
     }
 }

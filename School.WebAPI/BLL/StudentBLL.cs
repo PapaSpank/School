@@ -6,20 +6,35 @@ namespace School.WebAPI.BLL
 {
     public class StudentBLL : IStudentBLL
     {
-        private readonly IStudentValidator _studentValidator;
+        private readonly IPublicStudentFromFileValidator _publicStudentFromFileValidator;
+        private readonly IPublicStudentFromBodyValidator _publicStudentFromBodyValidator;
 
-        public StudentBLL(IStudentValidator studentValidator)
+        public StudentBLL(IPublicStudentFromFileValidator studentValidator,
+            IPublicStudentFromBodyValidator publicStudentFromBodyValidator)
         {
-            _studentValidator = studentValidator;
+            _publicStudentFromFileValidator = studentValidator;
+            _publicStudentFromBodyValidator = publicStudentFromBodyValidator;
         }
 
-        public async Task<StudentsValidationResult> ValidateStudents(List<Student> students)
+        public async Task<PublicStudentsValidationResult> ValidatePublicSchoolStudentsFromFile(List<PublicSchoolStudent> students)
         {
-            StudentsValidationResult studentValidationResult = await _studentValidator.ValidateStudents(students);
+            PublicStudentsValidationResult studentValidationResult = await _publicStudentFromFileValidator.ValidateStudents(students);
             // short-circuit processing if there are row which failed validation
             if (studentValidationResult.InvalidRows.Count != 0)
                 return studentValidationResult;
+            // TODO: studentId validation
 
+            // multiple validations occured, return end result
+            return studentValidationResult;
+        }
+
+        public async Task<PublicStudentsValidationResult> ValidatePublicSchoolStudentsFromBody(List<PublicSchoolStudent> students)
+        {
+            PublicStudentsValidationResult studentValidationResult = await _publicStudentFromBodyValidator.ValidateStudents(students);
+            // short-circuit processing if there are row which failed validation
+            if (studentValidationResult.InvalidRows.Count != 0)
+                return studentValidationResult;
+            // TODO: studentId validation
 
             // multiple validations occured, return end result
             return studentValidationResult;

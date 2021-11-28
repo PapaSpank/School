@@ -5,6 +5,7 @@ namespace School.WebAPI.BLL
 {
     public interface IStudentBLL
     {
-        Task<StudentsValidationResult> ValidateStudents(List<Student> students);
+        Task<PublicStudentsValidationResult> ValidatePublicSchoolStudentsFromFile(List<PublicSchoolStudent> students);
+        Task<PublicStudentsValidationResult> ValidatePublicSchoolStudentsFromBody(List<PublicSchoolStudent> students);
     }
 }
