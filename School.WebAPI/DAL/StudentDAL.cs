@@ -8,12 +8,17 @@ namespace School.WebAPI.DAL
     public class StudentDAL : IStudentDAL
     {
         private readonly object _timestampLock = new();
+        private readonly JsonSerializerOptions jsonSerializerOptions;
 
         private readonly IConfiguration _configuration;
 
         public StudentDAL(IConfiguration configuration)
         {
             _configuration = configuration;
+            jsonSerializerOptions = new()
+            {
+                WriteIndented = true
+            };
         }
 
         // TODO: refactor code
@@ -32,13 +37,9 @@ namespace School.WebAPI.DAL
                 string timestamp = DateTime.Now.ToString("yyyyMMddHHmmssffff");
                 path += timestamp + ".json";
             }
-            var options = new JsonSerializerOptions
-            {
-                WriteIndented = true
-            };
 
             using FileStream createStream = File.Create(path);
-            await JsonSerializer.SerializeAsync(createStream, outputModel, options);
+            await JsonSerializer.SerializeAsync(createStream, outputModel, jsonSerializerOptions);
             await createStream.DisposeAsync();
 
         }
@@ -58,13 +59,9 @@ namespace School.WebAPI.DAL
                 string timestamp = DateTime.Now.ToString("yyyyMMddHHmmssffff");
                 path += timestamp + ".json";
             }
-            var options = new JsonSerializerOptions
-            {
-                WriteIndented = true
-            };
 
             using FileStream createStream = File.Create(path);
-            await JsonSerializer.SerializeAsync(createStream, outputModel, options);
+            await JsonSerializer.SerializeAsync(createStream, outputModel, jsonSerializerOptions);
             await createStream.DisposeAsync();
         }
     }

@@ -30,6 +30,7 @@ namespace School.WebAPI.Helpers
                 }
 
                 string[] splitFields = line.Split(',');
+                // TODO: moze da se desi da podaci o ocu i note ne postoje; u tom slucaju, duzina moze da bude 10
                 // test for number of fields - 13 (without note) or 14 (with note fields)
                 if (!(splitFields.Length == 13 || splitFields.Length == 14))
                 {
