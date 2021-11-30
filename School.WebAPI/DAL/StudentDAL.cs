@@ -1,5 +1,6 @@
 ﻿using School.WebAPI.Models;
 using School.WebAPI.Models.Output;
+using System.Linq;
 using System.Reflection;
 using System.Text.Json;
 
@@ -22,32 +23,22 @@ namespace School.WebAPI.DAL
             };
         }
 
-        // TODO: refactor code
         public async Task InsertPublicSchoolStudents(List<PublicSchoolStudent> students)
         {
-            string path = _configuration.GetConnectionString("TimeStampOutput");
             PublicSchoolOutputModel outputModel = new()
             {
                 Students = students,
                 SchoolName = string.Empty,
                 SchoolType = "public"
             };
-            
-            lock (_timestampLock)
-            {
-                string timestamp = DateTime.Now.ToString("yyyyMMddHHmmssffff");
-                path += timestamp + ".json";
-            }
 
-            using FileStream createStream = File.Create(path);
-            await JsonSerializer.SerializeAsync(createStream, outputModel, jsonSerializerOptions);
-            await createStream.DisposeAsync();
+            string path = GetOutputFilePath();
 
+            await SaveStudents(outputModel, path);
         }
 
         public async Task InsertPrivateSchoolStudents(List<PrivateSchoolStudent> students)
         {
-            string path = _configuration.GetConnectionString("TimeStampOutput");
             PrivateSchoolOutputModel outputModel = new()
             {
                 Students = students,
@@ -55,15 +46,39 @@ namespace School.WebAPI.DAL
                 SchoolType = "public"
             };
 
-            lock (_timestampLock)
-            {
-                string timestamp = DateTime.Now.ToString("yyyyMMddHHmmssffff");
-                path += timestamp + ".json";
-            }
+            string path = GetOutputFilePath();
 
+            await SaveStudents(outputModel, path);
+        }
+
+        private async Task SaveStudents<TOutputModel>(TOutputModel outputModel, string path) where TOutputModel : OutputModel
+        {
             using FileStream createStream = File.Create(path);
             await JsonSerializer.SerializeAsync(createStream, outputModel, jsonSerializerOptions);
             await createStream.DisposeAsync();
+        }
+
+        private string GetOutputFilePath()
+        {
+            string path = _configuration.GetConnectionString("TimeStampOutput");
+            DirectoryInfo d = new(path);
+            FileInfo[] files = d.GetFiles("*.json");
+            string timestamp;
+
+            lock (_timestampLock)
+            {
+                timestamp = DateTime.Now.ToString("yyyyMMddHHmmssffff");
+                
+            }
+            while (Array.IndexOf(files, timestamp) != -1)
+            {
+                lock (_timestampLock)
+                {
+                    timestamp = DateTime.Now.ToString("yyyyMMddHHmmssffff");
+                }
+            }
+            path += timestamp + ".json";
+            return path;
         }
     }
 }

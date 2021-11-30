@@ -85,14 +85,7 @@ namespace School.WebAPI.Validators.Interfaces
             {
                 secondParentValidated = true;
             }
-            
-            // TODO: uslov?
-            //if (!firstParentValidated && !secondParentValidated)
-            //{
-            //    return false;
-            //}
 
-            //return true;
             if (firstParentValidated && secondParentValidated)
             {
                 return true;
