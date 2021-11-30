@@ -17,7 +17,8 @@ namespace School.WebAPI.DAL
             _configuration = configuration;
             jsonSerializerOptions = new()
             {
-                WriteIndented = true
+                WriteIndented = true,
+                DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
             };
         }
 

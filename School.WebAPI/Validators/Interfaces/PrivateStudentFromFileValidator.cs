@@ -71,20 +71,34 @@ namespace School.WebAPI.Validators.Interfaces
                 firstParentValidated = true;
             }
             bool secondParentValidated = false;
-            if (student.Parents[0] != null &&
+            if (student.Parents.Count == 2)
+            {
+                if (student.Parents[1] != null &&
                 !string.IsNullOrEmpty(student.Parents[1].FirstName) &&
                 !string.IsNullOrEmpty(student.Parents[1].LastName) &&
                 !string.IsNullOrEmpty(student.Parents[1].Phone))
+                {
+                    secondParentValidated = true;
+                }
+            }
+            else
             {
                 secondParentValidated = true;
             }
+            
+            // TODO: uslov?
+            //if (!firstParentValidated && !secondParentValidated)
+            //{
+            //    return false;
+            //}
 
-            if (!firstParentValidated && !secondParentValidated)
+            //return true;
+            if (firstParentValidated && secondParentValidated)
             {
-                return false;
+                return true;
             }
 
-            return true;
+            return false;
         }
     }
 }

@@ -30,9 +30,8 @@ namespace School.WebAPI.Helpers
                 }
 
                 string[] splitFields = line.Split(',');
-                // TODO: moze da se desi da podaci o ocu i note ne postoje; u tom slucaju, duzina moze da bude 10
                 // test for number of fields - 13 (without note) or 14 (with note fields)
-                if (!(splitFields.Length == 13 || splitFields.Length == 14))
+                if (!(splitFields.Length == 13 || splitFields.Length == 14 || splitFields.Length == 10))
                 {
                     // data not in right format, continue
                     //break;
@@ -50,27 +49,59 @@ namespace School.WebAPI.Helpers
                 string motherFirstName = splitFields[7];
                 string motherLastName = splitFields[8];
                 string motherPhone = splitFields[9];
-                string fatherFirstName = splitFields[10];
-                string fatherLastName = splitFields[11];
-                string fatherPhone = splitFields[12];
+
+                string fatherFirstName = null;
+                string fatherLastName = null;
+                string fatherPhone = null;
+                if (splitFields.Length >= 13)
+                {
+                    fatherFirstName = splitFields[10];
+                    fatherLastName = splitFields[11];
+                    fatherPhone = splitFields[12];
+                }
                 string note = null;
                 if (splitFields.Length == 14)
                 {
                     note = splitFields[13];
                 }
 
-                Parent mother = new()
+                //Parent mother = new()
+                //{
+                //    FirstName = motherFirstName,
+                //    LastName = motherLastName,
+                //    Phone = motherPhone
+                //};
+                Parent mother = null;
+                if (!(string.IsNullOrEmpty(motherFirstName) &&
+                    string.IsNullOrEmpty(motherLastName) &&
+                    string.IsNullOrEmpty(motherPhone)))
                 {
-                    FirstName = motherFirstName,
-                    LastName = motherLastName,
-                    Phone = motherPhone
-                };
-                Parent father = new()
+                    mother = new()
+                    {
+                        FirstName = motherFirstName,
+                        LastName = motherLastName,
+                        Phone = motherPhone
+                    };
+                }
+                Parent father = null;
+                if (splitFields.Length >= 13)
                 {
-                    FirstName = fatherFirstName,
-                    LastName = fatherLastName,
-                    Phone = fatherPhone
-                };
+                    father = new()
+                    {
+                        FirstName = fatherFirstName,
+                        LastName = fatherLastName,
+                        Phone = fatherPhone
+                    };
+                }
+                List<Parent> parents = new();
+                if (mother != null)
+                {
+                    parents.Add(mother);
+                }
+                if (father != null)
+                {
+                    parents.Add(father);
+                }
 
                 PrivateSchoolStudent student = new()
                 {
@@ -81,7 +112,7 @@ namespace School.WebAPI.Helpers
                     Address = address,
                     StudentId = studentId,
                     Phone = phone,
-                    Parents = new List<Parent> { mother, father },
+                    Parents = parents,
                     Note = note
                 };
 
