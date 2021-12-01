@@ -61,10 +61,10 @@ namespace School.WebAPI.Controllers
             {
                 return BadRequest(validationResult.ErrorMessage);
             }
-
+            string address = GetSchoolAddress();
             try
             {
-                await _studentDAL.InsertPublicSchoolStudents(validationResult.Students);
+                await _studentDAL.InsertPublicSchoolStudents(validationResult.Students, address);
             }
             catch (Exception ex)
             {
@@ -103,13 +103,11 @@ namespace School.WebAPI.Controllers
             {
                 return BadRequest(validationResult.ErrorMessage);
             }
-            // TODO: remoteIpAddress
-            var remoteIpAddress = Request.HttpContext.Connection.RemoteIpAddress;
-            string address = remoteIpAddress.ToString();
+            string address = GetSchoolAddress();
 
             try
             {
-                await _studentDAL.InsertPublicSchoolStudents(validationResult.Students);
+                await _studentDAL.InsertPublicSchoolStudents(validationResult.Students, address);
             }
             catch (Exception ex)
             {
@@ -147,13 +145,11 @@ namespace School.WebAPI.Controllers
             {
                 return BadRequest(validationResult.ErrorMessage);
             }
-            // TODO: remoteIpAddress
-            var remoteIpAddress = Request.HttpContext.Connection.RemoteIpAddress;
-            string address = remoteIpAddress.ToString();
+            string address = GetSchoolAddress();
 
             try
             {
-                await _studentDAL.InsertPrivateSchoolStudents(validationResult.Students);
+                await _studentDAL.InsertPrivateSchoolStudents(validationResult.Students, address);
             }
             catch (Exception ex)
             {
@@ -161,6 +157,13 @@ namespace School.WebAPI.Controllers
             }
 
             return Ok();
+        }
+
+        private string GetSchoolAddress()
+        {
+            var remoteIpAddress = Request.HttpContext.Connection.RemoteIpAddress;
+            string address = remoteIpAddress.ToString();
+            return address;
         }
     }
 }

@@ -23,12 +23,12 @@ namespace School.WebAPI.DAL
             };
         }
 
-        public async Task InsertPublicSchoolStudents(List<PublicSchoolStudent> students)
+        public async Task InsertPublicSchoolStudents(List<PublicSchoolStudent> students, string schoolName)
         {
             PublicSchoolOutputModel outputModel = new()
             {
                 Students = students,
-                SchoolName = string.Empty,
+                SchoolName = schoolName,
                 SchoolType = "public"
             };
 
@@ -37,12 +37,12 @@ namespace School.WebAPI.DAL
             await SaveStudents(outputModel, path);
         }
 
-        public async Task InsertPrivateSchoolStudents(List<PrivateSchoolStudent> students)
+        public async Task InsertPrivateSchoolStudents(List<PrivateSchoolStudent> students, string schoolName)
         {
             PrivateSchoolOutputModel outputModel = new()
             {
                 Students = students,
-                SchoolName = string.Empty,
+                SchoolName = schoolName,
                 SchoolType = "public"
             };
 
