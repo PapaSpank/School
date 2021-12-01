@@ -27,6 +27,7 @@ builder.Services.AddSingleton<IPublicStudentFromBodyValidator, PublicStudentFrom
 builder.Services.AddSingleton<IPrivateStudentFromFileValidator, PrivateStudentFromFileValidator>();
 builder.Services.AddSingleton<IStudentBLL, StudentBLL>();
 builder.Services.AddSingleton<IStudentDAL, StudentDAL>();
+builder.Services.AddSingleton<IStudentIdValidator, StudentIdValidator>();
 
 var app = builder.Build();
 

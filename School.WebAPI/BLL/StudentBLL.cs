@@ -9,14 +9,17 @@ namespace School.WebAPI.BLL
         private readonly IPublicStudentFromFileValidator _publicStudentFromFileValidator;
         private readonly IPublicStudentFromBodyValidator _publicStudentFromBodyValidator;
         private readonly IPrivateStudentFromFileValidator _privateStudentFromFileValidator;
+        private readonly IStudentIdValidator _studentIdValidator;
 
         public StudentBLL(IPublicStudentFromFileValidator studentValidator,
             IPublicStudentFromBodyValidator publicStudentFromBodyValidator,
-            IPrivateStudentFromFileValidator privateStudentFromFileValidator)
+            IPrivateStudentFromFileValidator privateStudentFromFileValidator,
+            IStudentIdValidator studentIdValidator)
         {
             _publicStudentFromFileValidator = studentValidator;
             _publicStudentFromBodyValidator = publicStudentFromBodyValidator;
             _privateStudentFromFileValidator = privateStudentFromFileValidator;
+            _studentIdValidator = studentIdValidator;
         }
 
         public async Task<PublicStudentsValidationResult> ValidatePublicSchoolStudentsFromFile(List<PublicSchoolStudent> students)
@@ -25,7 +28,10 @@ namespace School.WebAPI.BLL
             // short-circuit processing if there are row which failed validation
             if (studentValidationResult.InvalidRows.Count != 0)
                 return studentValidationResult;
-            // TODO: studentId validation
+
+            studentValidationResult = await _studentIdValidator.ValidateStudents(studentValidationResult.Students);
+            if (studentValidationResult.InvalidRows.Count != 0)
+                return studentValidationResult;
 
             // multiple validations occured, return end result
             return studentValidationResult;
@@ -37,7 +43,10 @@ namespace School.WebAPI.BLL
             // short-circuit processing if there are row which failed validation
             if (studentValidationResult.InvalidRows.Count != 0)
                 return studentValidationResult;
-            // TODO: studentId validation
+
+            studentValidationResult = await _studentIdValidator.ValidateStudents(studentValidationResult.Students);
+            if (studentValidationResult.InvalidRows.Count != 0)
+                return studentValidationResult;
 
             // multiple validations occured, return end result
             return studentValidationResult;
@@ -49,7 +58,10 @@ namespace School.WebAPI.BLL
             // short-circuit processing if there are row which failed validation
             if (studentValidationResult.InvalidRows.Count != 0)
                 return studentValidationResult;
-            // TODO: studentId validation
+
+            studentValidationResult = await _studentIdValidator.ValidateStudents(studentValidationResult.Students);
+            if (studentValidationResult.InvalidRows.Count != 0)
+                return studentValidationResult;
 
             // multiple validations occured, return end result
             return studentValidationResult;
