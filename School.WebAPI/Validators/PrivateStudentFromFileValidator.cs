@@ -1,8 +1,9 @@
 ﻿using School.WebAPI.Models;
 using School.WebAPI.Models.Internal;
+using School.WebAPI.Validators.Interfaces;
 using System.Text;
 
-namespace School.WebAPI.Validators.Interfaces
+namespace School.WebAPI.Validators
 {
     public class PrivateStudentFromFileValidator : IPrivateStudentFromFileValidator
     {

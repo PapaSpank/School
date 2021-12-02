@@ -65,12 +65,6 @@ namespace School.WebAPI.Helpers
                     note = splitFields[13];
                 }
 
-                //Parent mother = new()
-                //{
-                //    FirstName = motherFirstName,
-                //    LastName = motherLastName,
-                //    Phone = motherPhone
-                //};
                 Parent mother = null;
                 if (!(string.IsNullOrEmpty(motherFirstName) &&
                     string.IsNullOrEmpty(motherLastName) &&

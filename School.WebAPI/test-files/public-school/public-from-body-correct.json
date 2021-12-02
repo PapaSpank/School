@@ -1,0 +1,49 @@
+{
+  "Users": [
+    {
+      "UserId": "1",
+      "FirstName": "Andreja",
+      "MiddleName": "Vladan",
+      "LastName": "Vulovic",
+      "StudentId": "abc",
+      "Phone": "065123456",
+      "Parent": {
+        "FirstName": "Vladan",
+        "MiddleName": "Dobrivoje",
+        "LastName": "Vulovic",
+        "Phone": "065998877"
+      },
+      "Note": "Neka poruka o studentu"
+    },
+    {
+      "UserId": "1",
+      "FirstName": "Ivan",
+      "MiddleName": "Vladan",
+      "LastName": "Vulovic",
+      "StudentId": "def",
+      "Phone": "065123456",
+      "Parent": {
+        "FirstName": "Vladan",
+        "MiddleName": "Dobrivoje",
+        "LastName": "Vulovic",
+        "Phone": "065998877"
+      },
+      "Note": null
+    },
+    {
+      "UserId": "1",
+      "FirstName": "Petar",
+      "MiddleName": "Lazar",
+      "LastName": "Petrovic",
+      "StudentId": "ghi",
+      "Phone": "065123456",
+      "Parent": {
+        "FirstName": "Lazar",
+        "MiddleName": "Pajsije",
+        "LastName": "Petrovic",
+        "Phone": "065998877"
+      },
+      "Note": ""
+    }
+  ]
+}
